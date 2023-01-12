@@ -1,25 +1,55 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ManageExpenseScreen from "./screens/ManageExpenseScreen";
 import RecentExpenseScreen from "./screens/RecentExpenseScreen";
 import AllExpensesScreen from "./screens/AllExpensesScreen";
+import { GlobalStyles } from "./constants/style";
+import { Ionicons } from "@expo/vector-icons";
 
+//different navigators
 const Stack = createStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 const ExpensesOverview = () => {
     return (
-        <BottomTabs.Navigator>
+        <BottomTabs.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: GlobalStyles.colors.primary500,
+                },
+                headerTintColor: "white",
+                tabBarStyle: {
+                    backgroundColor: GlobalStyles.colors.primary500,
+                    position: "absolute",
+                },
+            }}
+        >
             <BottomTabs.Screen
                 name="RecentExpenses"
                 component={RecentExpenseScreen}
+                options={{
+                    title: "Recent Expenses",
+                    tabBarLabel: "Recent Expenses",
+                    tabBarActiveTintColor: GlobalStyles.colors.accent500,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="hourglass" size={size} color={color} />
+                    ),
+                }}
             />
             <BottomTabs.Screen
                 name="AllExpenses"
                 component={AllExpensesScreen}
+                options={{
+                    title: "All Expenses",
+                    tabBarLabel: "All Expenses",
+                    tabBarActiveTintColor: GlobalStyles.colors.accent500,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="calendar" size={size} color={color} />
+                    ),
+                }}
             />
         </BottomTabs.Navigator>
     );
@@ -28,12 +58,15 @@ const ExpensesOverview = () => {
 export default function App() {
     return (
         <>
-            <StatusBar style="auto" />
+            <StatusBar style="light" />
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen
                         name="ExpensesOverview"
                         component={ExpensesOverview}
+                        options={{
+                            headerShown: false,
+                        }}
                     />
                     <Stack.Screen
                         name="ManageExpense"
