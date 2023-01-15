@@ -15,6 +15,7 @@ const RecentExpenseScreen = () => {
         <ExpensesOutput
             expensesPeriod={"Last 7 days"}
             expenses={recentExpenses}
+            fallbackText="No expenses found in last 7 days."
         />
     );
 };
