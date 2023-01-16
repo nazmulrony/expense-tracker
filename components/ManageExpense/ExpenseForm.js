@@ -1,8 +1,24 @@
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Input from "./Input";
 
 const ExpenseForm = () => {
-    function amountChangedHandler() {}
+    const [inputValues, setInputValues] = useState({
+        amount: "",
+        date: "",
+        description: "",
+    });
+    const inputChangeHandler = (inputIdentifier, enteredText) => {
+        setInputValues((curInputValues) => {
+            return {
+                ...curInputValues,
+                [inputIdentifier]: enteredText,
+            };
+        });
+        //not a good practice to update a state like this that depends on the previous state
+        // setInputValues({ ...inputValues, [inputIdentifier]: enteredText });
+    };
+    console.log(inputValues);
     return (
         <View style={styles.form}>
             <Text style={styles.title}>Your Expense</Text>
@@ -11,7 +27,8 @@ const ExpenseForm = () => {
                     label="Amount"
                     textInputConfig={{
                         keyboardType: "decimal-pad",
-                        onChangeText: amountChangedHandler,
+                        onChangeText: inputChangeHandler.bind(this, "amount"),
+                        value: inputValues.amount,
                     }}
                     style={styles.rowInput}
                 />
@@ -20,12 +37,21 @@ const ExpenseForm = () => {
                     textInputConfig={{
                         placeholder: "YYYY-MM-DD",
                         maxLength: 10,
-                        onChangeText: () => {},
+                        onChangeText: (text) =>
+                            inputChangeHandler("date", text),
+                        value: inputValues.date,
                     }}
                     style={styles.rowInput}
                 />
             </View>
-            <Input label="Description" textInputConfig={{ multiline: true }} />
+            <Input
+                label="Description"
+                textInputConfig={{
+                    multiline: true,
+                    onChangeText: inputChangeHandler.bind(this, "description"),
+                    value: inputValues.description,
+                }}
+            />
         </View>
     );
 };
