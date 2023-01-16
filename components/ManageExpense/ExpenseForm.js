@@ -79,6 +79,7 @@ const ExpenseForm = ({
             <View style={styles.inputRow}>
                 <Input
                     label="Amount"
+                    invalid={!inputs.amount.isValid}
                     textInputConfig={{
                         keyboardType: "decimal-pad",
                         onChangeText: inputChangeHandler.bind(this, "amount"),
@@ -88,6 +89,7 @@ const ExpenseForm = ({
                 />
                 <Input
                     label="Date"
+                    invalid={!inputs.date.isValid}
                     textInputConfig={{
                         placeholder: "YYYY-MM-DD",
                         maxLength: 10,
@@ -100,6 +102,7 @@ const ExpenseForm = ({
             </View>
             <Input
                 label="Description"
+                invalid={!inputs.description.isValid}
                 textInputConfig={{
                     multiline: true,
                     onChangeText: inputChangeHandler.bind(this, "description"),
